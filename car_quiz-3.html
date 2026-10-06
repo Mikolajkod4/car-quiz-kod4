@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cars: Parts & Interesting Facts</title>
+<style>
+body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#101820,#263238);color:#fff;margin:0;padding:20px}
+.box{max-width:760px;margin:auto;background:#18242b;border-radius:20px;padding:24px;box-shadow:0 10px 35px #0008}
+h1{margin-top:0}.q{font-size:20px;margin:25px 0 12px}.opt{display:block;background:#263740;border:1px solid #40545e;border-radius:12px;padding:13px;margin:9px 0;cursor:pointer}.opt:hover{background:#344952}
+button{border:0;border-radius:12px;padding:14px 20px;background:#ffb300;color:#111;font-weight:bold;font-size:16px;cursor:pointer;margin-top:18px}
+#result{font-size:24px;font-weight:bold;margin-top:20px}
+small{color:#b9c5ca}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>Cars: Parts & Interesting Facts</h1>
+<small>15 questions • Choose one answer for each question.</small>
+<form id="quiz"></form>
+<button type="button" onclick="checkQuiz()">Finish Quiz</button>
+<div id="result"></div>
+</div>
+<script>
+const qs=[
+["What is the main function of a car's engine?",["To produce mechanical power","To stop the car","To cool the tires","To control the headlights"],0],
+["Which part transfers engine power to the wheels in a typical car?",["Exhaust system","Radiator","Transmission","Windshield"],2],
+["A turbocharger can force more air into an engine, helping it produce more power.",["True","False"],0],
+["What does ABS help prevent during hard braking?",["Wheel lock-up","Engine overheating","Fuel evaporation","Headlight failure"],0],
+["Which part stores electrical energy in a conventional petrol car?",["Alternator","Battery","Radiator","Catalytic converter"],1],
+["What is the main job of a radiator?",["To cool the engine","To increase tire grip","To change gears","To filter fuel"],0],
+["The Bugatti Chiron is powered by a W16 engine.",["True","False"],0],
+["Which material is commonly used for high-performance car body panels because it is strong and lightweight?",["Carbon fiber","Cast iron","Lead","Concrete"],0],
+["What does horsepower measure in a car?",["Engine power","Fuel tank size","Tire pressure","Vehicle length"],0],
+["Which part helps connect a wheel to the suspension and allows it to rotate?",["Wheel hub","Radiator cap","Air filter","Spark plug"],0],
+["Which of these are common components of a car's braking system? Select every correct answer.",["Brake disc","Brake caliper","Brake pads","Turbocharger"],[0,1,2]],
+["What is the purpose of a catalytic converter?",["To reduce harmful exhaust emissions","To increase tire pressure","To store engine oil","To change transmission gears"],0],
+["Which famous car is known for having gullwing doors?",["Mercedes-Benz 300 SL","Toyota Corolla","Volkswagen Golf","Ford Focus"],0],
+["What does AWD stand for?",["All-Wheel Drive","Automatic Wheel Direction","Advanced Wind Design","Auto Weight Distribution"],0],
+["Which car brand is famous for the iconic 911 model?",["Porsche","Ferrari","Lamborghini","McLaren"],0]
+];
+const form=document.getElementById("quiz");
+qs.forEach((q,i)=>{
+ let d=document.createElement("div"); d.className="q";
+ d.innerHTML=`<div>${i+1}. ${q[0]}</div>`;
+ q[1].forEach((o,j)=>{
+  const multi=Array.isArray(q[2]);
+  d.innerHTML+=`<label class="opt"><input type="${multi?'checkbox':'radio'}" name="q${i}" value="${j}"> ${o}</label>`;
+ });
+ form.appendChild(d);
+});
+function checkQuiz(){
+ let score=0;
+ qs.forEach((q,i)=>{
+  const chosen=[...document.querySelectorAll(`[name=q${i}]:checked`)].map(x=>+x.value).sort();
+  const key=(Array.isArray(q[2])?q[2]:[q[2]]).slice().sort();
+  if(JSON.stringify(chosen)===JSON.stringify(key))score++;
+ });
+ document.getElementById("result").textContent=`Your score: ${score}/15`;
+ window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
+}
+</script>
+</body>
+</html>
